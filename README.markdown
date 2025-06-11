@@ -74,11 +74,3 @@ This project is a **Named Entity Recognition (NER) Analyzer** built using Flask 
 - The syntactic title extraction (e.g., "Mr. Smith") assumes specific patterns and may not handle all edge cases.
 - The evaluation metrics are based on a static ground truth, which may not generalize to all inputs.
 
-## Future Improvements
-- Add support for more entity types (e.g., organizations, dates).
-- Improve the UI with better styling and interactivity.
-- Allow users to upload custom entity files through the web interface.
-- Enhance evaluation by allowing dynamic ground truth input.
-
-## Acknowledgments
-This project was developed with assistance from **Grok**, an AI created by xAI, which helped in building and structuring the application.
