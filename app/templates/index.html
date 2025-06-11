@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NER Analyzer - Modern UI</title>
+  <!-- Bootstrap & Google Fonts -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0f1117;
+      color: #ecf0f1;
+      font-family: 'Inter', sans-serif;
+    }
+    .container {
+      margin-top: 40px;
+    }
+    .phone-frame {
+      background: #1f2733;
+      border-radius: 24px;
+      padding: 20px;
+      max-width: 360px;
+      margin: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .side-panel {
+      background: #1c222b;
+      border-radius: 16px;
+      padding: 20px;
+      height: 100%;
+      overflow-y: auto;
+    }
+    textarea {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      border: none;
+      resize: none;
+    }
+    .form-label {
+      font-weight: 600;
+    }
+    .btn-custom {
+      background-color: #00b894;
+      border: none;
+    }
+    .btn-custom:hover {
+      background-color: #019875;
+    }
+    .syntax-box {
+      background-color: #2e3c4f;
+      border-radius: 10px;
+      padding: 15px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <!-- Phone-like Input Section -->
+    <div class="col-md-5 mb-4">
+      <div class="phone-frame">
+        <h4 class="text-center mb-3">NER Analyzer</h4>
+        <form method="POST" action="{{ url_for('index') }}">
+          <div class="form-group">
+            <label for="input_text" class="form-label">Enter Text:</label>
+            <textarea class="form-control" id="input_text" name="input_text" rows="6" placeholder="Type here...">{{ input_text or "" }}</textarea>
+          </div>
+          <button type="submit" class="btn btn-custom btn-block">Analyze</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Output Section -->
+    <div class="col-md-7">
+      <div class="side-panel">
+        <h4 class="mb-3">NER Results</h4>
+
+        {% if persons is defined %}
+        <h5>Identified Persons:</h5>
+        {% if persons %}
+          <ul class="list-group mb-2">
+            {% for person in persons %}
+              <li class="list-group-item bg-dark text-light">{{ person }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No persons detected.</p>
+        {% endif %}
+        <p><strong>Precision:</strong> {{ precision_persons | round(2) }} |
+           <strong>Recall:</strong> {{ recall_persons | round(2) }}</p>
+        {% endif %}
+
+        {% if places is defined %}
+        <h5 class="mt-4">Identified Places:</h5>
+        {% if places %}
+          <ul class="list-group mb-3">
+            {% for place in places %}
+              <li class="list-group-item bg-dark text-light">{{ place }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No places detected.</p>
+        {% endif %}
+        {% endif %}
+
+        {% if syntax_tree %}
+        <h5 class="mt-4">Syntactic Analysis (Dependencies):</h5>
+        <div class="syntax-box">
+          {{ syntax_tree }}
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
